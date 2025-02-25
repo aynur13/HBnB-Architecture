@@ -1,0 +1,40 @@
+classDiagram
+    %% Define the three layers
+    class PresentationLayer {
+        <<Interface>>
+        + ServiceAPI
+        + Controller
+    }
+
+    class BusinessLogicLayer {
+        + UserModel
+        + PlaceModel
+        + ReviewModel
+        + AmenityModel
+        + BusinessLogicService
+    }
+
+    class PersistenceLayer {
+        + UserRepository
+        + PlaceRepository
+        + ReviewRepository
+        + AmenityRepository
+        + DatabaseConnection
+    }
+
+    %% Define the facade pattern
+    class Facade {
+        <<Facade>>
+        + FacadeAPI
+        + createUser()
+        + getPlace()
+        + addReview()
+    }
+
+    %% Define communication pathways
+    PresentationLayer --> Facade : Uses Facade for interaction
+    BusinessLogicLayer --> Facade : Uses Facade for interaction
+    PersistenceLayer --> Facade : Uses Facade for database operations
+    Facade --> BusinessLogicLayer : Interacts with business logic
+    BusinessLogicLayer --> PersistenceLayer : Retrieves/Updates data via Repositories
+
